@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>SteamGuard.TOTP</RootNamespace>
+    <Version>1.0.0</Version>
+    <Description>Generate Steam Guard codes using a TOTP key</Description>
+    <Authors>Horațiu Mlendea</Authors>
+    <Copyright>Copyright 2021 © Horațiu Mlendea</Copyright>
+    <RepositoryUrl>https://github.com/hmlendea/steamguard.totp</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageTags>Steam 2FA TOTP Authentication</PackageTags>
+  </PropertyGroup>
+
+</Project>
