@@ -12,4 +12,8 @@
     <PackageTags>Steam 2FA TOTP Authentication</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NuciExtensions" Version="1.5.0" />
+  </ItemGroup>
+
 </Project>
