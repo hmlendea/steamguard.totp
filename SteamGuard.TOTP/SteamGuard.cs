@@ -3,16 +3,25 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 
-using NuciExtensions;
-
 namespace SteamGuard.TOTP
 {
     public sealed class SteamGuard : ISteamGuard
     {
         static readonly int CodeLength = 5;
-        static readonly TimeSpan Interval = TimeSpan.FromSeconds(30);
         static readonly string AllowedTotpKeyCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
         static readonly string AuthenticationCodeAlphabet = "23456789BCDFGHJKMNPQRTVWXY";
+
+        readonly ITimeStepProvider timeStepProvider;
+
+        public SteamGuard()
+            : this(new TimeStepProvider())
+        {
+        }
+
+        public SteamGuard(ITimeStepProvider timeStepProvider)
+        {
+            this.timeStepProvider = timeStepProvider;
+        }
 
         public string GenerateAuthenticationCode(string totpKey)
         {
@@ -20,16 +29,15 @@ namespace SteamGuard.TOTP
 
             using (HMACSHA1 hmacshA1 = new HMACSHA1(securityToken))
             {
-                long currentTimeStepNumber = DateTimeExtensions.GetElapsedUnixTime(DateTime.UtcNow).Ticks / Interval.Ticks;
-                int binCode = ComputeTotp(hmacshA1, currentTimeStepNumber);
-
+                int binCode = ComputeTotp(hmacshA1);
                 return GenerateCodeFromBinCode(binCode);
             }
         }
 
-        int ComputeTotp(HashAlgorithm algorithm, long timeStepNumber)
+        int ComputeTotp(HashAlgorithm algorithm)
         {
-            var bytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((long)timeStepNumber));
+            long currentTimeStep = timeStepProvider.GetCurrentTimeStep();
+            var bytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((long)currentTimeStep));
             var hmac = algorithm.ComputeHash(bytes);
             byte offset = (byte)(hmac[19] & 15);
 
