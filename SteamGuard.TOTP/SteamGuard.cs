@@ -26,12 +26,10 @@ namespace SteamGuard.TOTP
         public string GenerateAuthenticationCode(string totpKey)
         {
             byte[] securityToken = EncodeToBase32(totpKey);
+            using HMACSHA1 hmacshA1 = new(securityToken);
+            int binCode = ComputeTotp(hmacshA1);
 
-            using (HMACSHA1 hmacshA1 = new HMACSHA1(securityToken))
-            {
-                int binCode = ComputeTotp(hmacshA1);
-                return GenerateCodeFromBinCode(binCode);
-            }
+            return GenerateCodeFromBinCode(binCode);
         }
 
         int ComputeTotp(HashAlgorithm algorithm)
@@ -41,17 +39,17 @@ namespace SteamGuard.TOTP
             var hmac = algorithm.ComputeHash(bytes);
             byte offset = (byte)(hmac[19] & 15);
 
-            int binCode = 
-            (
-                (((hmac[offset] & 127) << 24) |
-                ((hmac[offset + 1] & 255) << 16)) |
-                ((hmac[offset + 2] & 255) << 8)
-            ) | (hmac[offset + 3] & 255);
+            int binCode =
+
+                ((hmac[offset] & 127) << 24) |
+                ((hmac[offset + 1] & 255) << 16) |
+                ((hmac[offset + 2] & 255) << 8) |
+                (hmac[offset + 3] & 255);
 
             return binCode;
         }
 
-        string GenerateCodeFromBinCode(int binCode)
+        static string GenerateCodeFromBinCode(int binCode)
         {
             string code = string.Empty;
 
@@ -64,7 +62,7 @@ namespace SteamGuard.TOTP
             return code;
         }
 
-        byte[] EncodeToBase32(string source)
+        static byte[] EncodeToBase32(string source)
         {
             string bits = source
                 .ToUpper()

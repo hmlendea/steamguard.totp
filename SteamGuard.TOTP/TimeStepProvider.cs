@@ -9,10 +9,6 @@ namespace SteamGuard.TOTP
         static readonly TimeSpan Interval = TimeSpan.FromSeconds(30);
 
         public long GetCurrentTimeStep()
-        {
-            TimeSpan elapsedUnixTime = DateTimeExtensions.GetElapsedUnixTime(DateTime.UtcNow);
-
-            return elapsedUnixTime.Ticks / Interval.Ticks;
-        }
+            => DateTimeExtensions.GetElapsedUnixTime(DateTime.UtcNow).Ticks / Interval.Ticks;
     }
 }
