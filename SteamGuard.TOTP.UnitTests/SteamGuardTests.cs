@@ -7,7 +7,7 @@ namespace SteamGuard.TOTP.UnitTests
     {
         Mock<ITimeStepProvider> timeStepProviderMock;
 
-        ISteamGuard steamGuard;
+        SteamGuard steamGuard;
 
         [SetUp]
         public void SetUp()
@@ -30,9 +30,7 @@ namespace SteamGuard.TOTP.UnitTests
                 .Setup(x => x.GetCurrentTimeStep())
                 .Returns(timeStep);
 
-            string actualCode = steamGuard.GenerateAuthenticationCode(totpKey);
-
-            Assert.That(actualCode, Is.EqualTo(expectedCode));
+            Assert.That(steamGuard.GenerateAuthenticationCode(totpKey), Is.EqualTo(expectedCode));
         }
     }
 }
