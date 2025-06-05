@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>SteamGuard.TOTP</RootNamespace>
     <Version>1.0.0</Version>
     <Description>Generate Steam Guard codes using a TOTP key</Description>
