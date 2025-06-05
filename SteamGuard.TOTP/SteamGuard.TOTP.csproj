@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NuciExtensions" Version="1.5.0" />
+    <PackageReference Include="NuciExtensions" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
