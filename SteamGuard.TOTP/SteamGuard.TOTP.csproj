@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>SteamGuard.TOTP</RootNamespace>
     <Version>1.1.1</Version>
-    <Description>Generate Steam Guard codes using a TOTP key</Description>
+    <Description>Library for generating Steam Guard authentication codes from a Steam shared secret (Base32 TOTP key).</Description>
     <Authors>Horațiu Mlendea</Authors>
     <Copyright>Copyright 2026 © Horațiu Mlendea</Copyright>
     <RepositoryUrl>https://github.com/hmlendea/steamguard.totp</RepositoryUrl>
