@@ -126,7 +126,7 @@ When contributing:
 ## Related Projects
 
 - [steam-totp](https://github.com/hmlendea/steam-totp): CLI app for generating Steam Guard codes.
-- [steamguard.totp](https://github.com/hmlendea/steamguard.totp): This NuGet library.
+- [SteamGuard.TOTP](https://github.com/hmlendea/steamguard.totp): This NuGet library.
 
 ## License
 
