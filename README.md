@@ -128,6 +128,10 @@ When contributing:
 - [steam-totp](https://github.com/hmlendea/steam-totp): CLI app for generating Steam Guard codes.
 - [steamguard.totp](https://github.com/hmlendea/steamguard.totp): This NuGet library.
 
+## Privacy
+
+SteamGuard.TOTP is a local computation library with no network access, telemetry, or persistent storage. See [PRIVACY.md](./PRIVACY.md) for details.
+
 ## License
 
 Licensed under the GNU General Public License v3.0 or later.
