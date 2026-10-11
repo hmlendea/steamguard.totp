@@ -83,14 +83,14 @@ public void GenerateAuthenticationCode_ReturnsCodeOfCorrectLength()
 [Test]
 public void GenerateAuthenticationCode_ThrowsOnEmptyKey()
 {
-    Assert.Throws<InvalidOperationException>(() => 
+    Assert.Throws<InvalidOperationException>(() =>
         steamGuard.GenerateAuthenticationCode(""));
 }
 
 [Test]
 public void GenerateAuthenticationCode_ThrowsOnNullKey()
 {
-    Assert.Throws<NullReferenceException>(() => 
+    Assert.Throws<NullReferenceException>(() =>
         steamGuard.GenerateAuthenticationCode(null!));
 }
 ```
@@ -142,13 +142,13 @@ flowchart TD
     Discover[Discover Tests]
     RunTests[Execute Tests]
     Report[Report Results]
-    
+
     Start --> Restore
     Restore --> Build
     Build --> Discover
     Discover --> RunTests
     RunTests --> Report
-    
+
     subgraph TestCases [Test Cases]
         TC1[Known Vector Tests<br/>8 test cases]
         TC2[Code Length Test]
@@ -156,7 +156,7 @@ flowchart TD
         TC4[Null Key Test]
         TC5[Character Set Test]
     end
-    
+
     RunTests --> TC1
     RunTests --> TC2
     RunTests --> TC3

@@ -120,7 +120,7 @@ public class MyService
 {
     private readonly ISteamGuard steamGuard;
     public MyService(ISteamGuard steamGuard) => this.steamGuard = steamGuard;
-    
+
     public string GetCode(string secret) => steamGuard.GenerateAuthenticationCode(secret);
 }
 ```

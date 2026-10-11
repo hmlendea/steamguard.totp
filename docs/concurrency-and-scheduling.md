@@ -108,7 +108,7 @@ var accounts = new[]
     ("account3", "SECRET3")
 };
 
-var results = accounts.AsParallel().Select(a => 
+var results = accounts.AsParallel().Select(a =>
     (a.Item1, Code: steamGuard.GenerateAuthenticationCode(a.Item2))
 ).ToList();
 ```
@@ -176,14 +176,14 @@ public class SteamCodeMonitor : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             string code = _steamGuard.GenerateAuthenticationCode(_secret);
-            
+
             // Process code...
-            
+
             // Wait for next time step boundary
             var now = DateTimeOffset.UtcNow;
             var secondsIntoStep = now.Second % 30;
             var delay = TimeSpan.FromSeconds(30 - secondsIntoStep);
-            
+
             await Task.Delay(delay, stoppingToken);
         }
     }
@@ -194,7 +194,7 @@ public class SteamCodeMonitor : BackgroundService
 
 ```csharp
 // Generate code every 30 seconds
-var timer = new Timer(_ => 
+var timer = new Timer(_ =>
 {
     string code = steamGuard.GenerateAuthenticationCode(secret);
     OnCodeGenerated(code);
@@ -231,8 +231,8 @@ public void GenerateAuthenticationCode_ConcurrentCalls_ReturnsSameCode()
 public void TimeStepProvider_ConcurrentCalls_NoExceptions()
 {
     var provider = new TimeStepProvider();
-    
-    Assert.DoesNotThrow(() => 
+
+    Assert.DoesNotThrow(() =>
     {
         Parallel.For(0, 1000, _ => provider.GetCurrentTimeStep());
     });

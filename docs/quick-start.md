@@ -61,9 +61,9 @@ public void TestCodeGeneration()
 {
     var provider = new FixedTimeStepProvider(55752480); // 2023-01-01T12:00:00Z
     var steamGuard = new SteamGuard(provider);
-    
+
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     Assert.That(code, Is.EqualTo("R73NH"));
 }
 ```

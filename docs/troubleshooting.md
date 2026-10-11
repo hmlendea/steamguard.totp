@@ -214,9 +214,9 @@ public class DebugSteamGuard : ISteamGuard
     {
         Console.WriteLine($"Input secret length: {sharedSecret?.Length}");
         Console.WriteLine($"Input secret (masked): {sharedSecret?[..2]}***{sharedSecret[^2..]}");
-        
+
         string code = _inner.GenerateAuthenticationCode(sharedSecret);
-        
+
         Console.WriteLine($"Output code: {code}");
         return code;
     }
@@ -232,28 +232,28 @@ public static void DebugGeneration(string secret, long timeStep)
     // 1. Decode Base32
     byte[] key = Base32Decode(secret);
     Console.WriteLine($"Key: {BitConverter.ToString(key)}");
-    
+
     // 2. Time step bytes
     byte[] timeBytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(timeStep));
     Console.WriteLine($"Time bytes: {BitConverter.ToString(timeBytes)}");
-    
+
     // 3. HMAC-SHA1
     using var hmac = new HMACSHA1(key);
     byte[] hash = hmac.ComputeHash(timeBytes);
     Console.WriteLine($"Hash: {BitConverter.ToString(hash)}");
-    
+
     // 4. Truncation
     int offset = hash[19] & 0xF;
-    int binary = (hash[offset] & 0x7F) << 24 | 
-                 (hash[offset + 1] & 0xFF) << 16 | 
-                 (hash[offset + 2] & 0xFF) << 8 | 
+    int binary = (hash[offset] & 0x7F) << 24 |
+                 (hash[offset + 1] & 0xFF) << 16 |
+                 (hash[offset + 2] & 0xFF) << 8 |
                  (hash[offset + 3] & 0xFF);
     Console.WriteLine($"Binary: {binary}");
-    
+
     // 5. Modulo
     int codeNum = binary % 10000000;
     Console.WriteLine($"Code num: {codeNum}");
-    
+
     // 6. Alphabet mapping
     const string alphabet = "23456789BCDFGHJKMNPQRTVWXY";
     string code = "";

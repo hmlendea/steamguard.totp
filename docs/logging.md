@@ -49,7 +49,7 @@ public class LoggingSteamGuard : ISteamGuard
     public string GenerateAuthenticationCode(string sharedSecret)
     {
         _logger.LogDebug("Generating Steam Guard code");
-        
+
         try
         {
             string code = _inner.GenerateAuthenticationCode(sharedSecret);
@@ -65,7 +65,7 @@ public class LoggingSteamGuard : ISteamGuard
 }
 
 // Registration
-services.AddTransient<ISteamGuard>(sp => 
+services.AddTransient<ISteamGuard>(sp =>
     new LoggingSteamGuard(
         new SteamGuard(sp.GetRequiredService<ITimeStepProvider>()),
         sp.GetRequiredService<ILogger<LoggingSteamGuard>>()));
@@ -89,10 +89,10 @@ public class SteamGuardLoggingMiddleware
     {
         if (context.Request.Path.StartsWithSegments("/api/steam"))
         {
-            _logger.LogInformation("Steam Guard API request: {Method} {Path}", 
+            _logger.LogInformation("Steam Guard API request: {Method} {Path}",
                 context.Request.Method, context.Request.Path);
         }
-        
+
         await _next(context);
     }
 }
@@ -103,11 +103,11 @@ public class SteamGuardLoggingMiddleware
 ```csharp
 public static class SteamGuardLoggingExtensions
 {
-    public static string GenerateWithLogging(this ISteamGuard steamGuard, 
+    public static string GenerateWithLogging(this ISteamGuard steamGuard,
         string sharedSecret, ILogger logger)
     {
         logger.LogDebug("Generating Steam Guard code");
-        
+
         try
         {
             string code = steamGuard.GenerateAuthenticationCode(sharedSecret);
@@ -150,7 +150,7 @@ public static class SteamGuardLoggingExtensions
 ```csharp
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
-    .WriteTo.Console(outputTemplate: 
+    .WriteTo.Console(outputTemplate:
         "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
     .CreateLogger();
 
@@ -161,7 +161,7 @@ public class SerilogSteamGuard : ISteamGuard
     public string GenerateAuthenticationCode(string sharedSecret)
     {
         using var activity = Log.Logger.BeginTimedOperation("SteamGuard.GenerateCode");
-        
+
         try
         {
             string code = _inner.GenerateAuthenticationCode(sharedSecret);
@@ -197,7 +197,7 @@ public static class SteamGuardTelemetry
     {
         using var activity = ActivitySource.StartActivity("GenerateAuthenticationCode");
         activity?.SetTag("steamguard.secret.length", secret?.Length ?? 0);
-        
+
         try
         {
             string code = steamGuard.GenerateAuthenticationCode(secret);
@@ -262,10 +262,10 @@ public void GenerateAuthenticationCode_DoesNotLog()
     // Arrange
     var logger = new TestLogger();
     var steamGuard = new SteamGuard();
-    
+
     // Act
     steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     // Assert
     Assert.That(logger.Entries, Is.Empty);
 }
@@ -281,13 +281,13 @@ public void LoggingDecorator_LogsSuccess()
     var mockGuard = new Mock<ISteamGuard>();
     mockGuard.Setup(g => g.GenerateAuthenticationCode(It.IsAny<string>()))
              .Returns("R73NH");
-    
+
     var logger = new TestLogger();
     var decorator = new LoggingSteamGuard(mockGuard.Object, logger);
-    
+
     // Act
     decorator.GenerateAuthenticationCode("SECRET");
-    
+
     // Assert
     Assert.That(logger.Entries.Any(e => e.Contains("successfully")), Is.True);
 }

@@ -21,25 +21,25 @@ sequenceDiagram
     participant HMAC as HMACSHA1
 
     Caller->>SG: GenerateAuthenticationCode("JBSWY3DPEHPK3PXP")
-    
+
     Note over SG: Step 1: Base32 Decode
     SG->>SG: EncodeToBase32(totpKey)
     SG-->>SG: byte[10] securityToken
-    
+
     Note over SG: Step 2: Get Time Step
     SG->>TSP: GetCurrentTimeStep()
     TSP->>DT: GetElapsedUnixTime(DateTime.UtcNow)
     DT-->>TSP: TimeSpan since epoch
     TSP->>TSP: ticks / 30s interval
     TSP-->>SG: long timeStep (e.g., 1234567)
-    
+
     Note over SG: Step 3: HMAC-SHA1 + Truncation
     SG->>SG: BitConverter.GetBytes(HostToNetworkOrder(timeStep))
     SG->>HMAC: ComputeHash(timeStepBytes)
     HMAC-->>SG: byte[20] hmac
     SG->>SG: offset = hmac[19] & 0x0F
     SG->>SG: binCode = extract 4 bytes at offset (31-bit)
-    
+
     Note over SG: Step 4: Steam Alphabet Mapping
     SG->>SG: GenerateCodeFromBinCode(binCode)
     loop 5 times
@@ -47,7 +47,7 @@ sequenceDiagram
         SG->>SG: binCode /= 32
     end
     SG-->>SG: "D57RM"
-    
+
     SG-->>Caller: "D57RM"
 ```
 

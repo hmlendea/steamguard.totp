@@ -186,16 +186,16 @@ public class CachedSteamGuard : ISteamGuard
     public string GenerateAuthenticationCode(string sharedSecret)
     {
         string cacheKey = $"steam-code-{sharedSecret.GetHashCode()}";
-        
+
         if (_cache.TryGetValue(cacheKey, out string cached))
             return cached;
 
         string code = _inner.GenerateAuthenticationCode(sharedSecret);
-        
+
         // Cache for remainder of 30-second window
         var expiry = DateTimeOffset.UtcNow.AddSeconds(30 - DateTimeOffset.UtcNow.Second % 30);
         _cache.Set(cacheKey, code, expiry);
-        
+
         return code;
     }
 }
@@ -239,11 +239,11 @@ public void TestWithFixedState()
 {
     var provider = new FixedTimeStepProvider(55752480);
     var steamGuard = new SteamGuard(provider);
-    
+
     // Always returns same code for same input
     string code1 = steamGuard.GenerateAuthenticationCode(secret);
     string code2 = steamGuard.GenerateAuthenticationCode(secret);
-    
+
     Assert.That(code1, Is.EqualTo(code2));
 }
 ```

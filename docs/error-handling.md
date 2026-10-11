@@ -161,7 +161,7 @@ public class ResilientSteamGuardService
 ```csharp
 public static class SteamGuardValidator
 {
-    private static readonly HashSet<char> ValidBase32Chars = 
+    private static readonly HashSet<char> ValidBase32Chars =
         new("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", StringComparer.OrdinalIgnoreCase);
 
     public static bool IsValidSharedSecret(string secret)
@@ -249,10 +249,10 @@ public class LoggingSteamGuardDecorator : ISteamGuard
 public void GenerateAuthenticationCode_NullSecret_ThrowsArgumentNullException()
 {
     var steamGuard = new SteamGuard();
-    
+
     var ex = Assert.Throws<ArgumentNullException>(
         () => steamGuard.GenerateAuthenticationCode(null));
-    
+
     Assert.That(ex.ParamName, Is.EqualTo("sharedSecret"));
 }
 
@@ -260,10 +260,10 @@ public void GenerateAuthenticationCode_NullSecret_ThrowsArgumentNullException()
 public void GenerateAuthenticationCode_EmptySecret_ThrowsArgumentException()
 {
     var steamGuard = new SteamGuard();
-    
+
     var ex = Assert.Throws<ArgumentException>(
         () => steamGuard.GenerateAuthenticationCode(""));
-    
+
     Assert.That(ex.Message, Does.Contain("empty"));
 }
 
@@ -271,10 +271,10 @@ public void GenerateAuthenticationCode_EmptySecret_ThrowsArgumentException()
 public void GenerateAuthenticationCode_InvalidBase32_ThrowsFormatException()
 {
     var steamGuard = new SteamGuard();
-    
+
     var ex = Assert.Throws<FormatException>(
         () => steamGuard.GenerateAuthenticationCode("INVALID!@#"));
-    
+
     Assert.That(ex.Message, Does.Contain("Base32"));
 }
 ```

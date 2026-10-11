@@ -73,7 +73,7 @@ public class AuthService
 {
     private readonly ISteamGuard steamGuard;
     public AuthService(ISteamGuard steamGuard) => this.steamGuard = steamGuard;
-    
+
     public string GetSteamCode(string sharedSecret) => steamGuard.GenerateAuthenticationCode(sharedSecret);
 }
 ```

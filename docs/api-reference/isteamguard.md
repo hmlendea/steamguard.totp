@@ -85,12 +85,12 @@ services.AddTransient<ISteamGuard, SteamGuard>();
 public class SteamAuthService
 {
     private readonly ISteamGuard steamGuard;
-    
+
     public SteamAuthService(ISteamGuard steamGuard)
     {
         this.steamGuard = steamGuard;
     }
-    
+
     public string GenerateCode(string sharedSecret)
     {
         return steamGuard.GenerateAuthenticationCode(sharedSecret);

@@ -225,7 +225,7 @@ public class SteamGuardFunction
         ILogger log)
     {
         string secret = req.Query["secret"];
-        
+
         if (string.IsNullOrEmpty(secret))
             return new BadRequestObjectResult("Secret required");
 
@@ -269,17 +269,17 @@ public class SteamGuardFunction
     public APIGatewayProxyResponse GenerateCode(APIGatewayProxyRequest request, ILambdaContext context)
     {
         string secret = request.QueryStringParameters?.GetValueOrDefault("secret");
-        
+
         if (string.IsNullOrEmpty(secret))
             return new APIGatewayProxyResponse { StatusCode = 400, Body = "Secret required" };
 
         try
         {
             string code = _steamGuard.GenerateAuthenticationCode(secret);
-            return new APIGatewayProxyResponse 
-            { 
-                StatusCode = 200, 
-                Body = JsonSerializer.Serialize(new { code }) 
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = 200,
+                Body = JsonSerializer.Serialize(new { code })
             };
         }
         catch (FormatException)
@@ -307,7 +307,7 @@ public class SteamGuardFunction : IHttpFunction
     public async Task HandleAsync(HttpContext context)
     {
         string secret = context.Request.Query["secret"];
-        
+
         if (string.IsNullOrEmpty(secret))
         {
             context.Response.StatusCode = 400;
@@ -346,15 +346,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
-    
+
     - name: Build
       run: dotnet build SteamGuard.TOTP.sln -c Release
-    
+
     - name: Generate Code
       run: |
         dotnet run --project SteamTradeBot/SteamTradeBot.csproj \
@@ -418,7 +418,7 @@ public class SteamTradeBot
     public async Task ConfirmTradeOfferAsync(TradeOffer offer)
     {
         string code = _steamGuard.GenerateAuthenticationCode(_sharedSecret);
-        
+
         // Use code with SteamKit2 to confirm trade
         await _steamUser.AcceptTradeOffer(offer.TradeOfferId, code);
     }

@@ -217,24 +217,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
-    
+
     - name: Restore
       run: dotnet restore SteamGuard.TOTP.sln
-    
+
     - name: Build
       run: dotnet build SteamGuard.TOTP.sln --configuration Release --no-restore
-    
+
     - name: Test
       run: dotnet test SteamGuard.TOTP.sln --configuration Release --no-build --logger "trx"
-    
+
     - name: Pack
       run: dotnet pack SteamGuard.TOTP/SteamGuard.TOTP.csproj --configuration Release --no-build --output ./nupkg
-    
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -257,24 +257,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
-    
+
     - name: Restore
       run: dotnet restore SteamGuard.TOTP.sln
-    
+
     - name: Build
       run: dotnet build SteamGuard.TOTP.sln --configuration Release --no-restore
-    
+
     - name: Test
       run: dotnet test SteamGuard.TOTP.sln --configuration Release --no-build
-    
+
     - name: Pack
       run: dotnet pack SteamGuard.TOTP/SteamGuard.TOTP.csproj --configuration Release --no-build --output ./nupkg
-    
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:

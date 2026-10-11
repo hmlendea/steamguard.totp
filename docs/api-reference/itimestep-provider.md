@@ -146,7 +146,7 @@ public void GenerateCode_WithKnownTimeStep_ReturnsExpectedCode()
     var steamGuard = new SteamGuard(provider);
 
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     Assert.That(code, Is.EqualTo("R73NH"));
 }
 ```

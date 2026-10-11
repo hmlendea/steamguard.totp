@@ -76,9 +76,9 @@ public void GenerateAuthenticationCode_KnownVector_ReturnsExpectedCode()
 {
     var provider = new FixedTimeStepProvider(55752480);
     var steamGuard = new SteamGuard(provider);
-    
+
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     Assert.That(code, Is.EqualTo("R73NH"));
 }
 ```
@@ -91,7 +91,7 @@ public void GenerateAuthenticationCode_ReturnsFiveCharacters()
 {
     var steamGuard = new SteamGuard();
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     Assert.That(code.Length, Is.EqualTo(5));
 }
 
@@ -100,7 +100,7 @@ public void GenerateAuthenticationCode_UsesSteamAlphabet()
 {
     var steamGuard = new SteamGuard();
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     Assert.That(code.All(c => "23456789BCDFGHJKMNPQRTVWXY".Contains(c)), Is.True);
 }
 ```
@@ -112,7 +112,7 @@ public void GenerateAuthenticationCode_UsesSteamAlphabet()
 public void GenerateAuthenticationCode_NullSecret_ThrowsArgumentNullException()
 {
     var steamGuard = new SteamGuard();
-    
+
     Assert.Throws<ArgumentNullException>(() => steamGuard.GenerateAuthenticationCode(null));
 }
 
@@ -120,7 +120,7 @@ public void GenerateAuthenticationCode_NullSecret_ThrowsArgumentNullException()
 public void GenerateAuthenticationCode_EmptySecret_ThrowsArgumentException()
 {
     var steamGuard = new SteamGuard();
-    
+
     Assert.Throws<ArgumentException>(() => steamGuard.GenerateAuthenticationCode(""));
 }
 
@@ -128,7 +128,7 @@ public void GenerateAuthenticationCode_EmptySecret_ThrowsArgumentException()
 public void GenerateAuthenticationCode_InvalidBase32_ThrowsFormatException()
 {
     var steamGuard = new SteamGuard();
-    
+
     Assert.Throws<FormatException>(() => steamGuard.GenerateAuthenticationCode("INVALID!@#"));
 }
 ```
@@ -140,7 +140,7 @@ public void GenerateAuthenticationCode_InvalidBase32_ThrowsFormatException()
 public void TimeStepProvider_ReturnsNonNegative()
 {
     var provider = new TimeStepProvider();
-    
+
     Assert.That(provider.GetCurrentTimeStep(), Is.GreaterThanOrEqualTo(0));
 }
 
@@ -148,7 +148,7 @@ public void TimeStepProvider_ReturnsNonNegative()
 public void FixedTimeStepProvider_ReturnsFixedValue()
 {
     var provider = new FixedTimeStepProvider(123456789L);
-    
+
     Assert.That(provider.GetCurrentTimeStep(), Is.EqualTo(123456789L));
 }
 ```
@@ -161,10 +161,10 @@ public void GenerateAuthenticationCode_UsesInjectedTimeStep()
 {
     var mockProvider = new Mock<ITimeStepProvider>();
     mockProvider.Setup(p => p.GetCurrentTimeStep()).Returns(123456789L);
-    
+
     var steamGuard = new SteamGuard(mockProvider.Object);
     string code = steamGuard.GenerateAuthenticationCode("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ");
-    
+
     mockProvider.Verify(p => p.GetCurrentTimeStep(), Times.Once);
 }
 ```
