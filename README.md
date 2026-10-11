@@ -138,6 +138,10 @@ SteamGuard.TOTP is a local computation library with no network access, telemetry
 
 See [SECURITY.md](./SECURITY.md) for the security policy, supported versions, and vulnerability reporting process.
 
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the library architecture, components, runtime flow, and design constraints.
+
 ## License
 
 Licensed under the GNU General Public License v3.0 or later.
