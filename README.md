@@ -123,6 +123,8 @@ When contributing:
 - keep changes focused and consistent with the current coding style
 - update documentation when behavior changes
 
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
+
 ## Related Projects
 
 - [steam-totp](https://github.com/hmlendea/steam-totp): CLI app for generating Steam Guard codes.
